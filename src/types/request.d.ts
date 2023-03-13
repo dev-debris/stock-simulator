@@ -24,5 +24,11 @@ type WeekCandleRequest = CandleRequest;
 type MonthCandleRequest = CandleRequest;
 
 interface TickerRequest extends AdditionalUriInfo {
-  queries: {market: string};
+  queries: {markets: string};
 }
+
+interface MarketRequest extends AddtionalUriInfo {
+  queries: {isDetails: boolean};
+}
+
+type CandleType = 'minute' | 'day' | 'week' | 'month';

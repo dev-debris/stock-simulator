@@ -30,3 +30,5 @@ export const getMinutesCandles = getRequest<MinuteCandleRequest>(`${UPBIT_API_EN
 export const getDaysCandles = getRequest<DayCandleRequest>(`${UPBIT_API_ENDPOINT}/candles/days`);
 export const getWeeksCandles = getRequest<WeekCandleRequest>(`${UPBIT_API_ENDPOINT}/candles/weeks`);
 export const getMonthsCandles = getRequest<MonthCandleRequest>(`${UPBIT_API_ENDPOINT}/candles/months`);
+export const getTicker = getRequest<TickerRequest>(`${UPBIT_API_ENDPOINT}/ticker`);
+export const getMarkets = getRequest<MarketRequest>(`${UPBIT_API_ENDPOINT}/market/all`);

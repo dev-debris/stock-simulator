@@ -1,7 +1,14 @@
 import styled from '@emotion/styled';
+import {useQuery} from '@tanstack/react-query';
 import {Container, Portfolio, Search, StockDetail, StockList, Trade} from '@/components';
+import {MARKET_CODE, QUERY_KEYS} from '@/constants/request.const';
+import {getTicker} from '../src/http/index';
 
 function HomePage() {
+  const {data} = useQuery([QUERY_KEYS.markets], {
+    queryFn: () => getTicker({queries: {markets: MARKET_CODE['krw-btc']}}),
+  });
+
   return (
     <Container>
       <Root>
@@ -37,9 +44,7 @@ function HomePage() {
             <StockList />
           </LeftChild>
         </Left>
-        <Right>
-          <StockDetail />
-        </Right>
+        <Right>{data && <StockDetail ticker={data[0]} />}</Right>
       </Root>
     </Container>
   );
