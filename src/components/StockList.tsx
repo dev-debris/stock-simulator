@@ -12,8 +12,6 @@ function StockList() {
       .then(data => setStocks(data));
   }, []);
 
-  console.log(stocks);
-
   return (
     <Wrapper>
       <BorderNone>

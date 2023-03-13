@@ -13,3 +13,7 @@ interface PortfolioProp {
     quantity: number;
   }>;
 }
+
+interface StockProp {
+  stock: MarketResponse;
+}

@@ -2,15 +2,13 @@ import styled from '@emotion/styled';
 import {useEffect, useState} from 'react';
 import {getTicker} from '@/http';
 
-function StockListItem({stock}) {
+function StockListItem({stock}: {stock: MarketResponse}) {
   const [stockInfo, setStockInfo] = useState([]);
   const [isFavorite, setFavortie] = useState(false);
 
   useEffect(() => {
     getTicker({queries: {markets: stock.market}}).then(data => setStockInfo(data));
   }, [stock.market]);
-
-  console.log(stockInfo);
 
   if (!stockInfo.length) {
     return (
@@ -26,7 +24,6 @@ function StockListItem({stock}) {
 
   const fixedAccTradePrice = Math.floor(stockInfo[0].acc_trade_price_24h / 1000000);
   const fixedChangeRate = Math.round(stockInfo[0].signed_change_rate * 1000) / 1000;
-  const isPlus = fixedChangeRate >= 0 ? true : false;
   function toggleFavorite() {
     isFavorite ? setFavortie(false) : setFavortie(true);
   }
@@ -38,10 +35,10 @@ function StockListItem({stock}) {
           <Favorites onClick={toggleFavorite}>{isFavorite ? '★' : '☆'}</Favorites>
         </td>
         <StockName>{stock.korean_name}</StockName>
-        <StockPrice isPlus={isPlus}>{stockInfo[0].trade_price}</StockPrice>
+        <StockPrice fixedChangeRate={fixedChangeRate}>{stockInfo[0].trade_price}</StockPrice>
       </tr>
       <tr>
-        <StockChangeRate isPlus={isPlus}>{fixedChangeRate}%</StockChangeRate>
+        <StockChangeRate fixedChangeRate={fixedChangeRate}>{fixedChangeRate}%</StockChangeRate>
         <StockAccTradePrice>{fixedAccTradePrice}백만</StockAccTradePrice>
       </tr>
     </StockListBody>
@@ -79,19 +76,19 @@ const StockName = styled.td`
   background: #f8f9fa;
 `;
 
-const StockPrice = styled.td<{isPlus: boolean}>`
+const StockPrice = styled.td<{fixedChangeRate: number}>`
   width: 40%;
   flex: 1;
-  color: ${props => (props.isPlus ? 'red' : 'blue')};
+  color: ${props => (props.fixedChangeRate > 0 ? 'red' : props.fixedChangeRate === 0 ? 'black' : 'blue')};
   font-size: 12px;
   white-space: nowrap;
   background: #f8f9fa;
 `;
 
-const StockChangeRate = styled.td<{isPlus: boolean}>`
+const StockChangeRate = styled.td<{fixedChangeRate: number}>`
   width: 50%;
   flex: 1;
-  color: ${props => (props.isPlus ? 'red' : 'blue')};
+  color: ${props => (props.fixedChangeRate > 0 ? 'red' : props.fixedChangeRate === 0 ? 'black' : 'blue')};
   font-size: 12px;
   white-space: nowrap;
   background: #f8f9fa;
