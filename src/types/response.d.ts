@@ -58,3 +58,10 @@ interface TickerResponse {
   lowest_52_week_date: string;
   timestamp: number;
 }
+
+interface MarketResponse {
+  market: string;
+  korean_name: string;
+  english_name: string;
+  market_warning?: string;
+}
